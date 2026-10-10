@@ -51,7 +51,6 @@ const formatCurrency = (val) => {
 const DashboardPage = () => {
   const { refreshTrigger, onOpenAddTransaction } = useOutletContext() || {};
   const [data, setData] = useState(null);
-  const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -59,19 +58,12 @@ const DashboardPage = () => {
     try {
       setLoading(true);
       setError(null);
-      const [summaryRes, predRes] = await Promise.allSettled([
-        api.get('/dashboard/summary'),
-        api.post('/prediction'),
-      ]);
+      const res = await api.get('/dashboard/summary');
 
-      if (summaryRes.status === 'fulfilled' && summaryRes.value.data.success) {
-        setData(summaryRes.value.data);
+      if (res.data.success) {
+        setData(res.data);
       } else {
         throw new Error('Failed to load dashboard summary');
-      }
-
-      if (predRes.status === 'fulfilled') {
-        setPrediction(predRes.value.data);
       }
     } catch (err) {
       console.error('[Dashboard] Fetch error:', err);
@@ -188,66 +180,7 @@ const DashboardPage = () => {
         />
       </div>
 
-      {/* 2. ML Prediction Highlight Bar */}
-      <div
-        className="card"
-        style={{
-          background: 'linear-gradient(135deg, rgba(14, 107, 92, 0.25) 0%, rgba(12, 28, 24, 0.9) 100%)',
-          border: '1px solid var(--border-highlight)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '1rem',
-          padding: '1.25rem 1.5rem',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <div
-            style={{
-              width: '44px',
-              height: '44px',
-              borderRadius: '12px',
-              background: 'rgba(63, 191, 159, 0.15)',
-              color: 'var(--accent-primary)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-            }}
-          >
-            <Sparkles size={22} />
-          </div>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--accent-primary)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
-                Next Month Forecast
-              </span>
-            </div>
-            <div style={{ fontSize: '1.15rem', fontWeight: 700, color: '#fff', marginTop: '0.2rem' }}>
-              {prediction?.status === 'success' && prediction?.predictedExpense ? (
-                <>
-                  Estimated Next Month Expense:{' '}
-                  <span style={{ color: 'var(--accent-primary)' }}>
-                    {formatCurrency(prediction.predictedExpense)}
-                  </span>
-                </>
-              ) : (
-                'Pending Sufficient Historical Spending'
-              )}
-            </div>
-            <div style={{ fontSize: '0.785rem', color: 'var(--text-secondary)' }}>
-              {prediction?.message || 'FinSight forecasts your next month expenses based on your spending history.'}
-            </div>
-          </div>
-        </div>
-
-        <Link to="/prediction" className="btn btn-secondary btn-sm" style={{ border: '1px solid var(--border-highlight)' }}>
-          View Forecast Details <ArrowRight size={14} />
-        </Link>
-      </div>
-
-      {/* 3. Core Charts Grid */}
+      {/* Core Charts Grid */}
       <div className="grid-2">
         {/* Income vs Expense Monthly Comparison */}
         <div className="card">

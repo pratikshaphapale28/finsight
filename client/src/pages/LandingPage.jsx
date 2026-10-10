@@ -308,11 +308,11 @@ const LandingPage = () => {
 
           <div className="card card-interactive">
             <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(63, 191, 159, 0.15)', color: '#3fbf9f', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
-              <TrendingUp size={22} />
+              <Sparkles size={22} />
             </div>
-            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem' }}>5. Smart Expense Forecasting</h3>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '0.5rem' }}>5. AI Financial Assistant</h3>
             <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-              See a reliable estimate of next month's spending based on your own history, so you can plan ahead with confidence.
+              Ask natural-language questions about your spending, upcoming monthly estimates, and budget limits to plan ahead with confidence.
             </p>
           </div>
 
@@ -342,7 +342,7 @@ const LandingPage = () => {
             Ready to Take Control of Your Financial Future?
           </h2>
           <p style={{ color: 'var(--text-secondary)', maxWidth: '550px', margin: '0 auto 2rem', fontSize: '0.95rem' }}>
-            Join FinSight and build healthy financial habits — track spending, monitor monthly limits, and forecast tomorrow with confidence.
+            Join FinSight and build healthy financial habits — track spending, import statements, monitor monthly limits, and plan tomorrow with confidence.
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <Link to="/register" className="btn btn-primary" style={{ padding: '0.85rem 2rem' }}>
@@ -366,7 +366,7 @@ const LandingPage = () => {
           color: 'var(--text-muted)',
         }}
       >
-        <p>© 2026 FinSight — Smart Expense & Financial Planning System</p>
+        <p>© 2026 FinSight — Personal Financial Planning</p>
       </footer>
 
       <style>{`

@@ -6,10 +6,13 @@ const {
   createTransaction,
   updateTransaction,
   deleteTransaction,
+  bulkImportTransactions,
 } = require('../controllers/transactionController');
 const { protect } = require('../middleware/auth');
 
 router.use(protect); // All transaction routes are protected
+
+router.post('/import', bulkImportTransactions);
 
 router.route('/')
   .get(getTransactions)

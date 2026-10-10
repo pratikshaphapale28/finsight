@@ -183,10 +183,60 @@ const deleteTransaction = async (req, res, next) => {
   }
 };
 
+// @desc    Bulk import transactions
+// @route   POST /api/transactions/import
+// @access  Private
+const bulkImportTransactions = async (req, res, next) => {
+  try {
+    const { transactions } = req.body;
+
+    if (!Array.isArray(transactions) || transactions.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a valid list of transactions to import.',
+      });
+    }
+
+    const userId = req.user._id;
+
+    // Validate and sanitize records
+    const recordsToInsert = transactions
+      .map((t) => ({
+        userId,
+        amount: Math.abs(Number(t.amount)) || 0,
+        type: t.type === 'income' ? 'income' : 'expense',
+        category: t.category?.trim() || (t.type === 'income' ? 'Salary' : 'Other'),
+        paymentMethod: t.paymentMethod?.trim() || 'UPI',
+        date: t.date ? new Date(t.date) : new Date(),
+        description: t.description ? t.description.trim() : (t.category || 'Imported Transaction'),
+      }))
+      .filter((t) => t.amount > 0);
+
+    if (recordsToInsert.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'No valid transactions with an amount greater than 0 found.',
+      });
+    }
+
+    const inserted = await Transaction.insertMany(recordsToInsert);
+
+    res.status(201).json({
+      success: true,
+      count: inserted.length,
+      message: `Successfully imported ${inserted.length} transactions.`,
+      transactions: inserted,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getTransactions,
   getTransactionById,
   createTransaction,
   updateTransaction,
   deleteTransaction,
+  bulkImportTransactions,
 };

@@ -3,10 +3,11 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   ArrowLeftRight,
+  UploadCloud,
   PieChart,
   Target,
   BarChart3,
-  TrendingUp,
+  Sparkles,
   User,
   LogOut,
   Wallet,
@@ -17,10 +18,11 @@ import { useAuth } from '../context/AuthContext';
 const navItems = [
   { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
   { name: 'Transactions', path: '/transactions', icon: ArrowLeftRight },
+  { name: 'Import', path: '/import', icon: UploadCloud },
   { name: 'Budgets', path: '/budgets', icon: PieChart },
   { name: 'Savings Goals', path: '/savings', icon: Target },
   { name: 'Analytics', path: '/analytics', icon: BarChart3 },
-  { name: 'Expense Forecast', path: '/prediction', icon: TrendingUp },
+  { name: 'AI Assistant', path: '/assistant', icon: Sparkles },
   { name: 'Profile & Settings', path: '/profile', icon: User },
 ];
 

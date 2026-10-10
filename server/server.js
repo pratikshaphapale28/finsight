@@ -28,7 +28,7 @@ if (process.env.NODE_ENV === 'development') {
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'online',
-    service: 'FinSight Backend REST API',
+    service: 'FinSight Service',
     timestamp: new Date().toISOString(),
   });
 });
@@ -41,12 +41,13 @@ app.use('/api/savings', require('./routes/savingsRoutes'));
 app.use('/api/dashboard', require('./routes/dashboardRoutes'));
 app.use('/api/analytics', require('./routes/analyticsRoutes'));
 app.use('/api/prediction', require('./routes/predictionRoutes'));
+app.use('/api/assistant', require('./routes/assistantRoutes'));
 
 // 404 Route Handler
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    message: `Endpoint ${req.originalUrl} not found on FinSight server.`,
+    message: `The requested link was not found.`,
   });
 });
 

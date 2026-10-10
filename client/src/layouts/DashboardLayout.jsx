@@ -8,10 +8,11 @@ import AddTransactionModal from '../components/AddTransactionModal';
 const titlesMap = {
   '/dashboard': { title: 'Financial Dashboard', subtitle: 'Real-time overview of your income, expenses, and goals' },
   '/transactions': { title: 'Transactions Manager', subtitle: 'Track, categorize, and filter your financial records' },
+  '/import': { title: 'Import Statement', subtitle: 'Upload and review bank or payment statements to automatically add transactions' },
   '/budgets': { title: 'Budget Management', subtitle: 'Set monthly category limits and monitor spending thresholds' },
   '/savings': { title: 'Savings Goals', subtitle: 'Track targets, deadlines, and calculate required monthly deposits' },
   '/analytics': { title: 'Financial Analytics', subtitle: 'In-depth visual insights into your cashflow and category distributions' },
-  '/prediction': { title: 'Expense Forecast', subtitle: 'A smart estimate of what you might spend next month, based on your spending history.' },
+  '/assistant': { title: 'Financial Assistant', subtitle: 'Ask natural-language questions about your spending, estimates, and budgets' },
   '/profile': { title: 'Profile & Settings', subtitle: 'Manage your personal baseline settings and preferences' },
 };
 

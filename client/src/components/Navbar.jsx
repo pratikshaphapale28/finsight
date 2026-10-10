@@ -1,15 +1,14 @@
 import React from 'react';
-import { Menu, Plus, Sparkles } from 'lucide-react';
+import { Menu, Plus } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const Navbar = ({ pageTitle, pageSubtitle, onToggleMobile, onOpenAddTransaction }) => {
   const { user } = useAuth();
   const location = useLocation();
   const currentPath = location.pathname;
 
-  const showAddTransaction = ['/dashboard', '/transactions', '/budgets'].includes(currentPath) && Boolean(onOpenAddTransaction);
-  const showMLForecast = ['/dashboard', '/prediction'].includes(currentPath);
+  const showAddTransaction = ['/dashboard', '/transactions', '/budgets', '/import'].includes(currentPath) && Boolean(onOpenAddTransaction);
 
   return (
     <header
@@ -56,19 +55,6 @@ const Navbar = ({ pageTitle, pageSubtitle, onToggleMobile, onOpenAddTransaction 
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-        {showMLForecast && (
-          <Link
-            to="/prediction"
-            className="btn btn-secondary btn-sm"
-            style={{
-              border: '1px solid rgba(63, 191, 159, 0.3)',
-              color: 'var(--accent-primary)',
-            }}
-          >
-            <Sparkles size={15} />
-            <span className="hide-on-mobile">Forecast</span>
-          </Link>
-        )}
 
         {showAddTransaction && (
           <button
