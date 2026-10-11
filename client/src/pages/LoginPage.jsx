@@ -31,7 +31,15 @@ const LoginPage = () => {
         setErrorMsg(res.message || 'Invalid credentials');
       }
     } catch (err) {
-      setErrorMsg(err.response?.data?.message || 'Login failed. Please check your credentials.');
+      if (err.response?.data?.message) {
+        setErrorMsg(err.response.data.message);
+      } else if (err.response?.status === 500) {
+        setErrorMsg('Server error. Please check backend database connection.');
+      } else if (err.message === 'Network Error' || !err.response) {
+        setErrorMsg('Unable to reach backend service. Please check network connection.');
+      } else {
+        setErrorMsg('Login failed. Please check your credentials.');
+      }
     } finally {
       setLoading(false);
     }

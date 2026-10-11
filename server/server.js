@@ -24,6 +24,23 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+// Database connection middleware for serverless/cold-start reliability
+app.use(async (req, res, next) => {
+  // Allow health check to pass without waiting for DB
+  if (req.path === '/api/health') {
+    return next();
+  }
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: 'Database connection failed. Please ensure MONGODB_URI is correctly set in Vercel environment variables and allows access.',
+    });
+  }
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({
@@ -56,6 +73,10 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`[FinSight Server] Running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`[FinSight Server] Running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+  });
+}
+
+module.exports = app;
